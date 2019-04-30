@@ -1,0 +1,7 @@
+version: v1.0.0
+steps:
+  - build: -t {{.Run.Registry}}/hello-world:{{.Run.ID}} -f hello-world.dockerfile .
+  - cmd: docker tag {{.Run.Registry}}/hello-world:{{.Run.ID}} {{.Values.regTwo}}/hello-world:crossover
+  - push:
+    - {{.Run.Registry}}/hello-world:{{.Run.ID}}
+    - {{.Values.regTwo}}/hello-world:crossover
