@@ -1,7 +1,7 @@
 version: v1.0.0
 steps:
   - build: -t danlep0429b.azurecr.io/hello-world:{{.Run.ID}} -f hello-world.dockerfile .
-  - build: -t danlep0429a.azurecr.io/hello-world:crossover
+  - build: -t danlep0429a.azurecr.io/hello-world:crossover -f hello-world.dockerfile .
   - push:
     - danlep0429b.azurecr.io/hello-world:{{.Run.ID}}
     - danlep0429a.azurecr.io/hello-world:crossover
