@@ -1,0 +1,25 @@
+version: v1.0.0
+steps:
+  # build target and test images, concurrently
+  - id: build-hello-world
+    build: -t {{.Run.Registry}}/hello-world:{{.Run.Branch}}-{{.Run.Commit}} -f hello-world.dockerfile .
+    when: ["-"]
+  - id: build-hello-world-test
+    build: -t hello-world-test -f hello-world.dockerfile .
+    when: ["-"]
+  # run test image
+  - id: func-tests
+    cmd: hello-world-test
+    when: ["build-hello-world"]
+  # run following steps if functional tests successful
+  # tag hello-world for "latest" registry 
+  - cmd: docker tag {{.Run.Registry}}/hello-world:{{.Run.ID}} {{.Values.regLates}}/hello-world:latest
+    when: ["func-tests"]
+  # delete latest image in second registry before pushing update
+  - cmd: docker rmi {{.Values.regLatest}}/hello-world:latest
+    when: ["func-tests"]
+  # push images
+  - push:
+    - {{.Run.Registry}}/hello-world:{{.Run.Branch}}-{{.Run.Commit}}
+    - {{.Values.regLatest}}/hello-world:latest
+    when: ["func-tests"]
