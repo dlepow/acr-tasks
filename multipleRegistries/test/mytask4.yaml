@@ -1,0 +1,11 @@
+version: v1.0.0
+steps:
+  # build target and latest images
+- build: -t {{.Run.Registry}}/hello-world:{{.Run.Branch}}-{{.Run.Commit}} -f hello-world.dockerfile .
+- build: -t {{.Values.regLatest}}/hello-world:latest -f hello-world.dockerfile .
+  # delete latest image in second registry before pushing update
+- cmd: docker rmi {{.Values.regLatest}}/hello-world:latest
+  # push images 
+- push:
+  - {{.Run.Registry}}/hello-world:{{.Run.Branch}}-{{.Run.Commit}}
+  - {{.Values.regLatest}}/hello-world:latest

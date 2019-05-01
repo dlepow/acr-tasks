@@ -11,7 +11,7 @@ steps:
   - id: func-tests
     cmd: hello-world-test
     env:
-      - test-target=hello-world
+      - TEST_TARGET_URL=hello-world
     when: ["build-hello-world"]
   # run following steps if functional tests successful
   # tag hello-world for "latest" registry 
