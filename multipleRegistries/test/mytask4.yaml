@@ -1,11 +1,9 @@
 version: v1.0.0
 steps:
-  # build target and latest images
+  # build target image
 - build: -t {{.Run.Registry}}/hello-world:{{.Run.Branch}}-{{.Run.Commit}} -f hello-world.dockerfile .
-- build: -t {{.Values.regLatest}}/hello-world:latest -f hello-world.dockerfile .
-  # delete latest image in second registry before pushing update
-- cmd: docker login {{.Values.regLatest}}
-- cmd: docker rmi {{.Values.regLatest}}/hello-world:latest
+  # Tag as latest image in second registry
+- cmd: docker tag {{.Run.Registry}}/hello-world:{{.Run.Branch}}-{{.Run.Commit}} {{.Values.regLatest}}/hello-world:latest
   # push images 
 - push:
   - {{.Run.Registry}}/hello-world:{{.Run.Branch}}-{{.Run.Commit}}
