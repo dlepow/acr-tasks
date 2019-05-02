@@ -1,10 +1,10 @@
 version: v1.0.0
 steps:
   # build target image
-- build: -t {{.Run.Registry}}/hello-world:{{.Run.Branch}}-{{.Run.Commit}} -f hello-world.dockerfile .
-  # Tag as latest image in second registry
-- cmd: docker tag {{.Run.Registry}}/hello-world:{{.Run.Branch}}-{{.Run.Commit}} {{.Values.regLatest}}/hello-world:latest
+- build: -t {{.Run.Registry}}/hello-world:{{.Run.Id}} -f hello-world.dockerfile .
+  # Tag with date in second registry
+- cmd: docker tag {{.Run.Registry}}/hello-world:{{.Run.Id}} {{.Values.regLatest}}/hello-world:{{.Run.Date}}
   # push images 
 - push:
-  - {{.Run.Registry}}/hello-world:{{.Run.Branch}}-{{.Run.Commit}}
-  - {{.Values.regLatest}}/hello-world:latest
+  - {{.Run.Registry}}/hello-world:{{.Run.Id}}
+  - {{.Values.regLatest}}/hello-world:{{.Run.Date}}

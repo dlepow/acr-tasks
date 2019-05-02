@@ -1,0 +1,10 @@
+version: v1.0.0
+steps:
+  # build target image
+- build: -t {{.Run.Registry}}/hello-world:{{.Run.ID}} -f hello-world.dockerfile .
+  # Tag image in second registry with date
+- cmd: docker tag {{.Run.Registry}}/hello-world:{{.Run.ID}} {{.Values.regLatest}}/hello-world:{{.Run.Date}}
+  # push images 
+- push:
+  - {{.Run.Registry}}/hello-world:{{.Run.ID}}
+  - {{.Values.regLatest}}/hello-world:{{.Run.Date}}
