@@ -1,2 +1,2 @@
-REGISTRY1: acrautobuild.azurecr.io
-REGISTRY2: acrmdmtestaue.azurecr.io
+REGISTRY1: danlep0531.azurecr.io
+REGISTRY2: danlep0531b.azurecr.io
